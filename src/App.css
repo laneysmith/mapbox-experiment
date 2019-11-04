@@ -1,22 +1,68 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
+h1 {
+  font-size: 1.3rem;
+  letter-spacing: 3px;
+  margin: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+header {
+  font-family: "Open Sans", sans-serif;
+  color: #141414;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 60px;
 }
 
-.App-link {
-  color: #09d3ac;
+header svg {
+  fill: #141414;
+}
+
+.subtitle {
+  color: #555555;
+}
+
+.location-finder {
+  display: flex;
+  align-items: center;
+}
+
+.map-container {
+  position: absolute;
+  top: 60px;
+  bottom: 0;
+  width: 100%;
+}
+
+.location-finder {
+  cursor: hand;
+}
+
+.location-finder svg {
+  margin-left: 10px;
+}
+
+.bounce-text {
+  animation: bounce 4s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  10%,
+  25%,
+  40%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-30px);
+  }
+  30% {
+    transform: translateX(-15px);
+  }
 }

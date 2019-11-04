@@ -1,31 +1,18 @@
-import React from 'react';
-import mapboxgl from 'mapbox-gl';
-import './App.css';
+import React, { Fragment } from "react";
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+import Header from "./components/Header";
+import Map from "./components/Map";
+import useLocationReducer from "./useLocationReducer";
+import "./App.css";
 
-class Map extends React.Component {
-  componentDidMount() {
-    const map = new mapboxgl.Map({
-      container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v9',
-      center: [-104.9876, 39.7405],
-      zoom: 12.3,
-    });
+const App = () => {
+  const location = useLocationReducer();
+  return (
+    <Fragment>
+      <Header location={location} />
+      <Map location={location} />
+    </Fragment>
+  );
+};
 
-    map.on('move', () => { });
-  }
-
-  render() {
-    const style = {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      width: '100%'
-    };
-
-    return <div style={style} ref={el => this.mapContainer = el} />;
-  }
-}
-
-export default Map;
+export default App;
