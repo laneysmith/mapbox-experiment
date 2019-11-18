@@ -1,29 +1,31 @@
-import React from "react";
-import { ReactComponent as LocationIcon } from "../svg/location.svg";
+import React, { useState } from 'react';
+import { ReactComponent as LocationIcon } from '../svg/location.svg';
 
-const Header = ({ location }) => {
+const Header = ({ updateLocationAction }) => {
+  const [loadingLocation, setLoadingLocation] = useState(false);
+
   const onClickUseLocation = () => {
+    setLoadingLocation(true);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-        var coords = {
+        const coords = {
           lon: position.coords.longitude,
-          lat: position.coords.latitude
+          lat: position.coords.latitude,
         };
-        console.log("coords :", coords);
-        location.updateLocationAction(coords);
+        updateLocationAction(coords);
       });
+      setLoadingLocation(false);
     }
   };
 
   return (
     <header>
       <div className="title">
-        <h1>MAP-EXPERIMENT</h1>
-        <span className="subtitle">subtitle</span>
+        <h1>FILTH FINDER 2.0</h1>
+        <h2>find junk food near you</h2>
       </div>
       <div className="location-finder" onClick={onClickUseLocation}>
-        <span className="bounce-text">use your location</span>
-        <LocationIcon />
+        {loadingLocation ? <span>Finding your location...</span> : <LocationIcon />}
       </div>
     </header>
   );
