@@ -5,42 +5,13 @@ import { ReactComponent as TrashOutlineIcon } from '../svg/trash-outline.svg';
 import { ReactComponent as OpenDotIcon } from '../svg/open-dot.svg';
 import { ReactComponent as ClosedDotIcon } from '../svg/closed-dot.svg';
 
-const formatOpenStatus = isClosed => {
-  let text = 'Open';
-  let icon = <OpenDotIcon title="open" />;
-  if (isClosed) {
-    text = 'Closed';
-    icon = <ClosedDotIcon title="closed" />;
-  }
-  return (
-    <div className="result-open-status">
-      {text} {icon}
-    </div>
-  );
-};
-
-// TODO: result different rating based on result ratings/terms
-const formatFilthRating = result => {
-  return (
-    <div className="result-filth-rating">
-      <TrashFilledIcon />
-      <TrashFilledIcon />
-      <TrashFilledIcon />
-      <TrashOutlineIcon />
-      <TrashOutlineIcon />
-    </div>
-  );
-};
-
-const Drawer = ({ results, loading, selectedIndex }) => {
+const Drawer = ({ businesses, loading, error, selectedIndex }) => {
   let content;
-  if (loading) {
-    content = 'Loading...';
-  } else if (results && results.businesses && results.businesses.length) {
+  if (businesses.length) {
     content = (
       <table className="results-table">
         <tbody>
-          {results.businesses.map((business, index) => {
+          {businesses.map((business, index) => {
             const { id, name, is_closed } = business;
             return (
               <tr
@@ -62,11 +33,44 @@ const Drawer = ({ results, loading, selectedIndex }) => {
         </tbody>
       </table>
     );
+  } else if (loading) {
+    content = noResultsMessage('Loading...');
+  } else if (error) {
+    content = noResultsMessage('Error retrieving results');
   } else {
-    content = 'No filth for you.';
+    content = noResultsMessage('No filth for you');
   }
 
   return <aside className="results-drawer">{content}</aside>;
 };
+
+const formatOpenStatus = isClosed => {
+  let text = 'Open';
+  let icon = <OpenDotIcon title="open" />;
+  if (isClosed) {
+    text = 'Closed';
+    icon = <ClosedDotIcon title="closed" />;
+  }
+  return (
+    <div className="result-open-status">
+      {text} {icon}
+    </div>
+  );
+};
+
+const formatFilthRating = result => {
+  // TODO: show different rating based on result ratings/terms
+  return (
+    <div className="result-filth-rating">
+      <TrashFilledIcon />
+      <TrashFilledIcon />
+      <TrashFilledIcon />
+      <TrashOutlineIcon />
+      <TrashOutlineIcon />
+    </div>
+  );
+};
+
+const noResultsMessage = message => <div className="no-results">{message}</div>;
 
 export default Drawer;

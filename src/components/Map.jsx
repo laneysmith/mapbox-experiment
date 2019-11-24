@@ -3,7 +3,6 @@ import mapboxgl from 'mapbox-gl';
 import ReactDOM from 'react-dom';
 
 import { getYelpResults } from '../api/yelp';
-import yelpResultsToMapBoxFeatures from '../utils/yelpResultsToMapBoxFeatures';
 import Header from './Header';
 import Drawer from './Drawer';
 import Marker from './Marker';
@@ -17,9 +16,9 @@ const Map = () => {
   const mapRef = useRef(null);
   const mapContainerRef = useRef(null);
   const { coords, updateLocationAction } = useLocationReducer();
-  const { results, loading, actions } = useResultsReducer();
+  const { businesses, loading, error, actions } = useResultsReducer();
   const { fetchResultsRequest, fetchResultsSuccess, fetchResultsFailure } = actions;
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  // const [selectedIndex, setSelectedIndex] = useState(null);
 
   // initialize map when component mounts
   useEffect(() => {
@@ -39,9 +38,7 @@ const Map = () => {
         longitude: lng,
         latitude: lat,
       })
-        .then(response => {
-          return fetchResultsSuccess(response);
-        })
+        .then(response => fetchResultsSuccess(response))
         .catch(() => fetchResultsFailure());
     });
 
@@ -59,29 +56,31 @@ const Map = () => {
 
   // add markers to map when results are updated
   useEffect(() => {
-    if (results && results.businesses) {
-      yelpResultsToMapBoxFeatures(results.businesses).forEach(result => {
-        const { alias, geometry } = result;
+    if (businesses.length) {
+      businesses.forEach(business => {
+        const { alias, geometry } = business;
         const markerNode = document.createElement('div');
         ReactDOM.render(<Marker alias={alias} />, markerNode);
         const popupNode = document.createElement('div');
-        ReactDOM.render(<MarkerPopup result={result} />, popupNode);
+        ReactDOM.render(<MarkerPopup result={business} />, popupNode);
         new mapboxgl.Marker(markerNode)
           .setLngLat(geometry.coordinates)
           .setPopup(new mapboxgl.Popup({ offset: 15 }).setDOMContent(popupNode))
-          .on('mouseenter', () => {
-            console.log('hi');
-          })
           .addTo(mapRef.current);
       });
     }
-  }, [results]);
+  }, [businesses]);
 
   return (
     <Fragment>
       <Header updateLocationAction={updateLocationAction} />
       <div className="map-container" ref={mapContainerRef} />
-      <Drawer loading={loading} results={results} selectedIndex={selectedIndex} />
+      <Drawer
+        loading={loading}
+        businesses={businesses}
+        error={error}
+        // selectedIndex={selectedIndex}
+      />
     </Fragment>
   );
 };
