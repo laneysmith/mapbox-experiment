@@ -17,7 +17,7 @@ function coordinatesReducer(state, action) {
   }
 }
 
-export default function useLocationReducer() {
+export default function useCurrentLocationReducer() {
   const [coords, dispatch] = useReducer(coordinatesReducer, initialState);
   const updateLocationAction = coords => dispatch({ event: UPDATE_LOCATION, payload: { coords } });
 

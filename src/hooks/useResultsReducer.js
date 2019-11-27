@@ -33,7 +33,7 @@ function resultsReducer(state, action) {
     case FETCH_RESULTS_FAILURE:
       return {
         ...initialState,
-        error: false,
+        error: true,
       };
     default:
       throw new Error();

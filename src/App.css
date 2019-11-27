@@ -5,6 +5,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #141414;
+  margin: 0;
 }
 
 h1 {
@@ -67,8 +68,8 @@ header svg {
   overflow-y: auto;
 }
 
-.no-results {
-  padding: 8px 16px;
+.results-drawer--no-results {
+  padding: 20px;
 }
 
 table {

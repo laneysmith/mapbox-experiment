@@ -2,6 +2,22 @@ import React from 'react';
 
 import { ReactComponent as OpenDotIcon } from '../svg/open-dot.svg';
 
+const MarkerPopup = ({ result }) => {
+  const { alias, name, address, isClosed } = result.properties;
+
+  return (
+    <div id={`${alias}-marker-popup`}>
+      <h3>{name}</h3>
+      {!isClosed && (
+        <div className="result-open-status">
+          <OpenDotIcon /> Open now
+        </div>
+      )}
+      {address.length && formatAddress(address)}
+    </div>
+  );
+};
+
 const formatAddress = address => {
   let formattedAddress = address;
 
@@ -17,22 +33,6 @@ const formatAddress = address => {
           {part}
         </div>
       ))}
-    </div>
-  );
-};
-
-const MarkerPopup = ({ result }) => {
-  const { alias, name, address, isClosed } = result;
-
-  return (
-    <div id={`${alias}-marker-popup`}>
-      <h3>{name}</h3>
-      {!isClosed && (
-        <div className="result-open-status">
-          <OpenDotIcon /> Open now
-        </div>
-      )}
-      {address.length && formatAddress(address)}
     </div>
   );
 };
