@@ -4,22 +4,31 @@ import cn from 'classnames';
 import OpenStatus from './OpenStatus';
 import FilthRating from './FilthRating';
 
-const Drawer = ({ businesses, loading, error, selectedIndex }) => {
+const Drawer = ({
+  results,
+  loading,
+  error,
+  highlightedFeatureId,
+  showFeaturePopup,
+  hideFeaturePopup,
+}) => {
   let content;
 
-  if (businesses.length) {
+  if (results.length) {
     content = (
       <table className="results-table">
         <tbody>
-          {businesses.map((business, index) => {
-            const { id, properties } = business;
-            const { name, isClosed } = properties;
+          {results.map(business => {
+            const { id, alias, name, isClosed } = business.properties;
+            const isSelected = highlightedFeatureId === id;
             return (
               <tr
-                key={id}
+                key={alias}
                 className={cn('results-table-row', {
-                  'results-table-row--selected': selectedIndex === index,
+                  'results-table-row--selected': isSelected,
                 })}
+                onMouseEnter={() => showFeaturePopup(business)}
+                onMouseLeave={hideFeaturePopup}
               >
                 <td>
                   <h3>{name}</h3>
@@ -45,7 +54,7 @@ const Drawer = ({ businesses, loading, error, selectedIndex }) => {
   return (
     <aside
       className={cn('results-drawer', {
-        'results-drawer--no-results': !businesses.length,
+        'results-drawer--no-results': !results.length,
       })}
     >
       {content}

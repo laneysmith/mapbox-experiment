@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ReactComponent as LocationIcon } from '../svg/location.svg';
 
-const Header = ({ updateLocationAction }) => {
+const Header = ({ onClickUseCurrentLocation }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
-  const onClickUseLocation = () => updateLocationAction(currentLocation);
+  const onClickUseLocation = () => onClickUseCurrentLocation(currentLocation);
 
   // try to get user's current location from the browser on mount.
   // do this upfront instead of onClick because getCurrentPosition is slooow.

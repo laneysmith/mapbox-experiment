@@ -77,27 +77,28 @@ table {
   border-collapse: collapse;
 }
 
-tr {
+.results-table-row {
   margin: 0;
   border-top: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
   border-right: 1px solid #e0e0e0;
 }
 
-tr:first-child {
+.results-table-row:first-child {
   border-top: 1px solid transparent;
 }
 
-tr td {
+.results-table-row td {
   font-size: 0.7rem;
   padding: 8px 16px;
 }
 
-tr:nth-child(odd) {
+.results-table-row:nth-child(odd) {
   background-color: #f5f4f4;
 }
 
-tr:hover td {
+.results-table-row--selected td,
+.results-table-row:hover td {
   background-color: #cee3f5;
   border-top: 1px solid #9dcaf1;
   border-bottom: 1px solid #9dcaf1;

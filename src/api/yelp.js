@@ -1,14 +1,15 @@
 import fakeData from './fake_results.json';
+import resultsToFeatureCollection from '../utils/resultsToFeatureCollection';
 
 const terms = [
   // 'burgers',
   'candy',
   // 'comfortfood',
-  'convenience',
-  'diners',
+  // 'convenience',
+  // 'diners',
   // 'hotdogs',
-  'pubs',
-  'sportsbars',
+  // 'pubs',
+  // 'sportsbars',
 ];
 
 const API_URL =
@@ -33,5 +34,5 @@ export const getYelpResults = async ({ longitude, latitude }) => {
   // }
   //
   // const json = await response.json();
-  // return json;
+  // return resultsToFeatureCollection(json.businesses);
 };

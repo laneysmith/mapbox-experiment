@@ -1,14 +1,14 @@
 import { useReducer } from 'react';
 
-import yelpResultsToMapBoxFeatures from '../utils/yelpResultsToMapBoxFeatures';
-
 const FETCH_RESULTS_REQUEST = 'FETCH_RESULTS_REQUEST';
 const FETCH_RESULTS_SUCCESS = 'FETCH_RESULTS_SUCCESS';
 const FETCH_RESULTS_FAILURE = 'FETCH_RESULTS_FAILURE';
 
 const initialState = {
-  businesses: [],
-  total: null,
+  featureCollection: {
+    type: 'FeatureCollection',
+    features: [],
+  },
   loading: false,
   error: false,
 };
@@ -22,10 +22,9 @@ function resultsReducer(state, action) {
         loading: true,
       };
     case FETCH_RESULTS_SUCCESS: {
-      const { businesses, total } = payload.results;
+      const { featureCollection } = payload;
       return {
-        businesses: yelpResultsToMapBoxFeatures(businesses),
-        total,
+        featureCollection,
         loading: false,
         error: false,
       };
@@ -41,17 +40,17 @@ function resultsReducer(state, action) {
 }
 
 export default function useResultsReducer() {
-  const [{ businesses, total, loading, error }, dispatch] = useReducer(
+  const [{ featureCollection, total, loading, error }, dispatch] = useReducer(
     resultsReducer,
     initialState
   );
   const fetchResultsRequest = () => dispatch({ event: FETCH_RESULTS_REQUEST });
-  const fetchResultsSuccess = results =>
-    dispatch({ event: FETCH_RESULTS_SUCCESS, payload: { results } });
+  const fetchResultsSuccess = featureCollection =>
+    dispatch({ event: FETCH_RESULTS_SUCCESS, payload: { featureCollection } });
   const fetchResultsFailure = () => dispatch({ event: FETCH_RESULTS_FAILURE });
 
   return {
-    businesses,
+    featureCollection,
     total,
     loading,
     error,

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { ReactComponent as OpenDotIcon } from '../svg/open-dot.svg';
 
-const MarkerPopup = ({ result }) => {
-  const { alias, name, address, isClosed } = result.properties;
+const MarkerPopup = ({ feature }) => {
+  const { alias, name, address, isClosed } = feature.properties;
 
   return (
     <div id={`${alias}-marker-popup`}>
@@ -19,11 +19,12 @@ const MarkerPopup = ({ result }) => {
 };
 
 const formatAddress = address => {
-  let formattedAddress = address;
+  const splitAddress = address.split(', ');
+  let formattedAddress = splitAddress;
 
-  if (address.length !== 2) {
-    const address1 = [address[0], address[1]].join(', ');
-    formattedAddress = [address1, address[2]];
+  if (splitAddress.length !== 2) {
+    const address1 = [splitAddress[0], splitAddress[1]].join(', ');
+    formattedAddress = [address1, splitAddress[2]];
   }
 
   return (
